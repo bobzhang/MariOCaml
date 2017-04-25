@@ -126,7 +126,7 @@ let col_enemy_enemy t1 s1 o1 t2 s2 o2 dir =
   end
 
 (* Gets the object at a given position *)
-let obj_at_pos dir (pos: xy) (collids: Object.collidable list) 
+let obj_at_pos dir (pos: xy) (collids: Object.collidable list)
                                             : Object.collidable list =
   match dir with
   | Left -> List.filter (fun (col: Object.collidable) ->
@@ -136,7 +136,7 @@ let obj_at_pos dir (pos: xy) (collids: Object.collidable list)
       (get_obj col).pos.y = pos.y && (get_obj col).pos.x = pos.x +. 16.)
             collids
 
-(* Returns whether the object at a given position is a block *) 
+(* Returns whether the object at a given position is a block *)
 let is_block dir pos collids =
   match obj_at_pos dir pos collids with
   | [] -> false
@@ -395,7 +395,7 @@ let update_loop canvas (player,objs) map_dim =
 
         let player = run_update_collid state player objs in
 
-        if (get_obj player).kill = true 
+        if (get_obj player).kill = true
         then Draw.game_loss state.ctx else begin
           let state = {
             state with vpt = Viewport.update state.vpt (get_obj player).pos} in
@@ -404,8 +404,8 @@ let update_loop canvas (player,objs) map_dim =
           Draw.fps canvas fps;
           Draw.hud canvas state.score state.coins;
           ignore Dom_html.window##requestAnimationFrame(
-            Js.wrap_callback (fun (t:float) ->
-              update_helper t state player !collid_objs !particles))
+            fun (t:float) ->
+              update_helper t state player !collid_objs !particles)
         end
       end
   in update_helper 0. state player objs []
@@ -419,7 +419,7 @@ let keydown evt =
   | 40 | 83 -> pressed_keys.down <- true
   | 66 -> pressed_keys.bbox <- (pressed_keys.bbox + 1) mod 2
   | _ -> ()
-  in Js._true
+  in Js.true_
 
 (* Keyup event handler translates a key release *)
 let keyup evt =
@@ -429,4 +429,4 @@ let keyup evt =
   | 37 | 65 -> pressed_keys.left <- false
   | 40 | 83 -> pressed_keys.down <- false
   | _ -> ()
-  in Js._true
+  in Js.true_

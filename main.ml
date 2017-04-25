@@ -17,15 +17,15 @@ let load _ =
   let canvas_id = "canvas" in
   let canvas =
     Js.Opt.get
-      (Js.Opt.bind ( Html.document##getElementById(Js.string canvas_id))
+      (Js.Opt.bind ( Html.document##getElementById(canvas_id))
         Html.CoerceTo.canvas)
       (fun () ->
         Printf.printf "cant find canvas %s \n" canvas_id;
         failwith "fail"
       ) in
   let context = canvas##getContext (Html._2d_) in
-  let _ = Html.addEventListener Html.document Html.Event.keydown (Html.handler Director.keydown) Js._true in
-  let _ = Html.addEventListener Html.document Html.Event.keyup (Html.handler Director.keyup) Js._true in
+  let _ = Html.addEventListener Html.document Html.Event.keydown (Html.handler Director.keydown) Js.true_ in
+  let _ = Html.addEventListener Html.document Html.Event.keyup (Html.handler Director.keyup) Js.true_ in
   let () = Pg.init () in
   let _ = Director.update_loop canvas (Pg.generate level_width level_height context) (level_width,level_height) in
   print_endline "asd";
@@ -42,9 +42,9 @@ let preload _ =
   List.map (fun img_src ->
     let img_src = root_dir ^ img_src in
     let img = (Html.createImg Html.document) in
-    img##src <- (Js.string img_src) ;
+    img##src #= (img_src) ;
     ignore(Html.addEventListener  img Html.Event.load
-    (Html.handler (fun ev ->  inc_counter(); Js._true)) Js._true)) imgs
+    (Html.handler (fun ev ->  inc_counter(); Js.true_)) Js.true_)) imgs
 
 
-let _ = Html.window##onload <- Html.handler (fun _ -> ignore (preload()); Js._true)
+let _ = Html.window##onload #= Html.handler (fun _ -> ignore (preload()); Js.true_)
