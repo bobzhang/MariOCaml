@@ -1,0 +1,26 @@
+{
+  "name": "MariOCaml",
+  "version": "1.0.0",
+  "description": "[MariOCaml](https://mahsu.github.io/mariocaml/) ============= MariOCaml is an HTML 5 canvas web-browser implementation of the Super Mario Bros platformer written exclusively in Ocaml.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "bsb -w",
+    "pack": "webpack --entry ./lib/js/main.js  --output-filename _build/main.d.js -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahsu/MariOCaml.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mahsu/MariOCaml/issues"
+  },
+  "homepage": "https://github.com/mahsu/MariOCaml#readme",
+  "devDependencies": {
+    "bs-platform": "^1.7.1",
+    "webpack": "^2.4.1"
+  }
+}
