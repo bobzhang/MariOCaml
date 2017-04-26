@@ -363,9 +363,9 @@ let run_update_particle state part =
  *update each of the objects in the game.*)
 let update_loop canvas (player,objs) map_dim =
   let scale = 1. in
-  let ctx = canvas##getContext (Dom_html._2d_) in
-  let cwidth = (float_of_int canvas##width) /. scale in
-  let cheight = (float_of_int canvas##height) /. scale in
+  let ctx = (Dom_html.canvasElementToJsObj canvas)##getContext "2d" in
+  let cwidth = (float_of_int (Dom_html.canvasElementToJsObj canvas)##width) /. scale in
+  let cheight = (float_of_int (Dom_html.canvasElementToJsObj canvas)##height) /. scale in
   let viewport = Viewport.make (cwidth,cheight) map_dim in
   let state = {
       bgd = Sprite.make_bgd ctx;
@@ -412,6 +412,7 @@ let update_loop canvas (player,objs) map_dim =
 
 (* Keydown event handler translates a key press *)
 let keydown evt =
+  let evt = Dom_html.keyboardEventToJsObj evt in
   let () = match evt##keyCode with
   | 38 | 32 | 87 -> pressed_keys.up <- true
   | 39 | 68 -> pressed_keys.right <- true
@@ -423,6 +424,7 @@ let keydown evt =
 
 (* Keyup event handler translates a key release *)
 let keyup evt =
+  let evt = Dom_html.keyboardEventToJsObj evt in
   let () = match evt##keyCode with
   | 38 | 32 | 87 -> pressed_keys.up <- false
   | 39 | 68 -> pressed_keys.right <- false

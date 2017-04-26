@@ -3,10 +3,10 @@ open Sprite
 module Html = Dom_html
 let document = Html.document
 
-let get_context canvas = canvas##getContext (Dom_html._2d_)
+let get_context canvas = canvas##getContext "2d"
 
 let render_bbox sprite (posx,posy) =
-  let context = sprite.context in
+  let context = Dom_html.canvasRenderingContext2DToJsObj sprite.context in
   let (bbox,bboy) = sprite.params.bbox_offset in
   let (bbsx,bbsy) = sprite.params.bbox_size in
   context##strokeStyle #= "#FF0000";
@@ -14,7 +14,7 @@ let render_bbox sprite (posx,posy) =
 
 (*Draws a sprite onto the canvas.*)
 let render sprite (posx,posy) =
-  let context = sprite.context in
+  let context = Dom_html.canvasRenderingContext2DToJsObj sprite.context in
   let (sx, sy) = sprite.params.src_offset in
   let (sw, sh) = sprite.params.frame_size in
   let (dx, dy) = (posx,posy) in
@@ -33,7 +33,8 @@ let draw_bgd bgd off_x =
 
 (*Used for animation updating. Canvas is cleared each frame and redrawn.*)
 let clear_canvas canvas =
-  let context = canvas##getContext (Dom_html._2d_) in
+  let canvas = Dom_html.canvasElementToJsObj canvas in
+  let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
   let cwidth = float_of_int canvas##width in
   let cheight = float_of_int canvas##height in
   ignore context##clearRect(0.,0.,cwidth,cheight)
@@ -42,20 +43,23 @@ let clear_canvas canvas =
 let hud canvas score coins =
   let score_string = string_of_int score in
   let coin_string = string_of_int coins in
-  let context = canvas##getContext (Dom_html._2d_) in
   ignore context##font #= ( ("10px 'Press Start 2P'"));
   ignore context##fillText ( ("Score: "^score_string), (float_of_int canvas##width) -. 140., 18.);
   ignore context##fillText ( ("Coins: "^coin_string), 120., 18.)
+  let canvas = Dom_html.canvasElementToJsObj canvas in
+  let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
 
 (*Displays the fps.*)
 let fps canvas fps_val =
   let fps_str = int_of_float fps_val |> string_of_int in
-  let context = canvas##getContext (Dom_html._2d_) in
   ignore context##fillText ( fps_str, 10.,18.)
+  let canvas = Dom_html.canvasElementToJsObj canvas in
+  let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
 
 (*game_win displays a black screen when you finish a game.*)
 let game_win ctx =
   ctx##rect (0.,0.,512.,512.);
+  let ctx = Dom_html.canvasRenderingContext2DToJsObj ctx in
   ctx##fillStyle #= ( "black");
   ctx##fill ();
   ctx##fillStyle #= ( "white");
@@ -66,6 +70,7 @@ let game_win ctx =
 (*gave_loss displays a black screen stating a loss to finish that level play.*)
 let game_loss ctx =
   ctx##rect (0.,0.,512.,512.);
+  let ctx = Dom_html.canvasRenderingContext2DToJsObj ctx in
   ctx##fillStyle #= ( "black");
   ctx##fill ();
   ctx##fillStyle #= ( "white");
@@ -74,6 +79,4 @@ let game_loss ctx =
   failwith "Game over."
 
 let draw_background_color canvas = failwith "todo"
-let debug f = Printf.ksprintf (fun s -> Firebug.console##log ( s)) f
-let alert f = Printf.ksprintf (fun s -> Dom_html.window##alert( s); failwith "poo") f
 
