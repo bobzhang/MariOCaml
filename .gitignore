@@ -2,5 +2,10 @@
 .DS_Store
 .merlin
 /node_modules/
-/lib/
-/_build/
+*.annot
+*.cmt
+*.mliast
+*.mlast
+*.d
+lib/bs
+.bsdeps
