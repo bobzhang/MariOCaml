@@ -377,7 +377,7 @@ let update_loop canvas (player,objs) map_dim =
       map = snd map_dim;
       game_over = false;
   } in
-  state.ctx##scale(scale,scale);
+  (Dom_html.canvasRenderingContext2DToJsObj state.ctx)##scale scale scale;
   let rec update_helper time state player objs parts =
       if state.game_over = true then Draw.game_win state.ctx else begin
         collid_objs := [];
@@ -403,7 +403,7 @@ let update_loop canvas (player,objs) map_dim =
           List.iter (fun part -> run_update_particle state part) parts;
           Draw.fps canvas fps;
           Draw.hud canvas state.score state.coins;
-          ignore Dom_html.window##requestAnimationFrame(
+          ignore @@ Dom_html.requestAnimationFrame(
             fun (t:float) ->
               update_helper t state player !collid_objs !particles)
         end

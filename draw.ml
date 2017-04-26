@@ -10,7 +10,7 @@ let render_bbox sprite (posx,posy) =
   let (bbox,bboy) = sprite.params.bbox_offset in
   let (bbsx,bbsy) = sprite.params.bbox_size in
   context##strokeStyle #= "#FF0000";
-  context##strokeRect(posx+.bbox,posy+.bboy,bbsx,bbsy)
+  context##strokeRect (posx+.bbox) (posy+.bboy) bbsx bbsy
 
 (*Draws a sprite onto the canvas.*)
 let render sprite (posx,posy) =
@@ -22,7 +22,7 @@ let render sprite (posx,posy) =
   let sx = sx +. (float_of_int !(sprite.frame)) *. sw in
   (*print_endline (string_of_int !(sprite.frame));*)
   (*context##clearRect(0.,0.,sw, sh);*)
-  context##drawImage_full(sprite.img, sx, sy, sw, sh, dx, dy, dw, dh)
+  context##drawImage sprite.img sx sy sw sh dx dy dw dh
 
 (*Draws two background images, which needs to be done because of the
  *constantly changing viewport, which is always at most going to be
@@ -37,45 +37,45 @@ let clear_canvas canvas =
   let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
   let cwidth = float_of_int canvas##width in
   let cheight = float_of_int canvas##height in
-  ignore context##clearRect(0.,0.,cwidth,cheight)
+  ignore @@ context##clearRect 0. 0. cwidth cheight
 
 (*Displays the text for score and coins.*)
 let hud canvas score coins =
   let score_string = string_of_int score in
   let coin_string = string_of_int coins in
-  ignore context##font #= ( ("10px 'Press Start 2P'"));
-  ignore context##fillText ( ("Score: "^score_string), (float_of_int canvas##width) -. 140., 18.);
-  ignore context##fillText ( ("Coins: "^coin_string), 120., 18.)
   let canvas = Dom_html.canvasElementToJsObj canvas in
   let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
+  ignore @@ context##font #= ( ("10px 'Press Start 2P'"));
+  ignore @@ context##fillText  ("Score: "^score_string) ((float_of_int canvas##width) -. 140.) 18.;
+  ignore @@ context##fillText  ("Coins: "^coin_string) 120. 18.
 
 (*Displays the fps.*)
 let fps canvas fps_val =
   let fps_str = int_of_float fps_val |> string_of_int in
-  ignore context##fillText ( fps_str, 10.,18.)
   let canvas = Dom_html.canvasElementToJsObj canvas in
   let context = Dom_html.canvasRenderingContext2DToJsObj (canvas##getContext "2d") in
+  ignore @@ context##fillText fps_str 10. 18.
 
 (*game_win displays a black screen when you finish a game.*)
 let game_win ctx =
-  ctx##rect (0.,0.,512.,512.);
   let ctx = Dom_html.canvasRenderingContext2DToJsObj ctx in
+  ctx##rect 0. 0. 512. 512.;
   ctx##fillStyle #= ( "black");
   ctx##fill ();
   ctx##fillStyle #= ( "white");
   ctx##font #= ( "20px 'Press Start 2P'");
-  ctx##fillText ( ("You win!"), 180., 128.);
+  ctx##fillText ("You win!") 180. 128.;
   failwith "Game over."
 
 (*gave_loss displays a black screen stating a loss to finish that level play.*)
 let game_loss ctx =
-  ctx##rect (0.,0.,512.,512.);
   let ctx = Dom_html.canvasRenderingContext2DToJsObj ctx in
+  ctx##rect 0. 0. 512. 512.;
   ctx##fillStyle #= ( "black");
   ctx##fill ();
   ctx##fillStyle #= ( "white");
   ctx##font #= ( "20px 'Press Start 2P'");
-  ctx##fillText ( ("GAME OVER. You lose!"), 60., 128.);
+  ctx##fillText ( "GAME OVER. You lose!") 60. 128.;
   failwith "Game over."
 
 let draw_background_color canvas = failwith "todo"
