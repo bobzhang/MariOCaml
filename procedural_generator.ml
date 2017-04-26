@@ -194,7 +194,7 @@ let rec generate_block_locs (blockw: float) (blockh: float) (cbx: float)
 
 (*Generates the ending item panel at the end of the level. Games ends upon
 * collision with player.*)
-let generate_panel (context:Dom_html.canvasRenderingContext2D Js.t)
+let generate_panel (context:Dom_html.canvasRenderingContext2D)
                    (blockw: float) (blockh: float) : collidable =
   let ob = Object.spawn (SBlock Panel) context
     ((blockw*.16.)-.256., (blockh *. 16.)*.2./.3.) in
@@ -218,7 +218,7 @@ let rec generate_ground (blockw:float) (blockh:float) (inc:float)
 (*Converts the obj_coord list called by generate_block_locs to a list of objects
 * with the coordinates given from the obj_coord list. *)
 let rec convert_to_block_obj (lst:obj_coord list)
-  (context:Dom_html.canvasRenderingContext2D Js.t) : collidable list =
+  (context:Dom_html.canvasRenderingContext2D) : collidable list =
   match lst with
   |[] -> []
   |h::t ->
@@ -229,7 +229,7 @@ let rec convert_to_block_obj (lst:obj_coord list)
 (*Converts the obj_coord list called by generate_enemies to a list of objects
 * with the coordinates given from the obj_coord list. *)
 let rec convert_to_enemy_obj (lst:obj_coord list)
-            (context:Dom_html.canvasRenderingContext2D Js.t) : collidable list =
+            (context:Dom_html.canvasRenderingContext2D) : collidable list =
   match lst with
   |[] -> []
   |h::t ->
@@ -239,7 +239,7 @@ let rec convert_to_enemy_obj (lst:obj_coord list)
 
 (*Converts the list of coordinates into a list of Coin objects*)
 let rec convert_to_coin_obj (lst:obj_coord list)
-            (context:Dom_html.canvasRenderingContext2D Js.t) : collidable list =
+            (context:Dom_html.canvasRenderingContext2D) : collidable list =
   match lst with
   |[] -> []
   |h::t ->
@@ -251,7 +251,7 @@ let rec convert_to_coin_obj (lst:obj_coord list)
 * context. Arguments block width (blockw) and block height (blockh) are in
 * block form, not pixels.*)
 let generate_helper (blockw:float) (blockh:float) (cx:float) (cy:float)
-            (context:Dom_html.canvasRenderingContext2D Js.t) : collidable list =
+            (context:Dom_html.canvasRenderingContext2D) : collidable list =
   let block_locs = generate_block_locs blockw blockh 0. 0. [] in
   let converted_block_locs = trim_edges (convert_list block_locs)
     blockw blockh in
@@ -280,7 +280,7 @@ let generate_helper (blockw:float) (blockh:float) (cx:float) (cy:float)
 * are in pixel form. Converts to block form to call generate_helper. Spawns
 * the list of collidables received from generate_helper to display on canvas.*)
 let generate (w:float) (h:float)
-                    (context:Dom_html.canvasRenderingContext2D Js.t) :
+                    (context:Dom_html.canvasRenderingContext2D) :
                     (collidable * collidable list) =
   let blockw = w/.16. in
   let blockh = (h/.16.) -. 1. in

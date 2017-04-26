@@ -3,7 +3,7 @@
 val render : Sprite.sprite -> float * float  -> unit
 
 (* Clears the canvas *)
-val clear_canvas : Dom_html.canvasElement Js.t -> unit
+val clear_canvas : Dom_html.canvasElement -> unit
 
 (* Draw the given sprite as a background *)
 val draw_bgd : Sprite.sprite -> float -> unit
@@ -12,13 +12,13 @@ val draw_bgd : Sprite.sprite -> float -> unit
 val render_bbox : Sprite.sprite -> float * float -> unit
 
 (* Draws the fps on the canvas *)
-val fps : Dom_html.canvasElement Js.t -> float -> unit
+val fps : Dom_html.canvasElement -> float -> unit
 
 (* Draw the heads up display *)
-val hud : Dom_html.canvasElement Js.t -> int -> int -> unit
+val hud : Dom_html.canvasElement -> int -> int -> unit
 
 (* Draw the game win screen *)
-val game_win : Dom_html.canvasRenderingContext2D Js.t -> unit
+val game_win : Dom_html.canvasRenderingContext2D -> unit
 
 (* Draw the game loss screen *)
-val game_loss : Dom_html.canvasRenderingContext2D Js.t -> unit
+val game_loss : Dom_html.canvasRenderingContext2D -> unit

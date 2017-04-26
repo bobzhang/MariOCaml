@@ -23,7 +23,7 @@ type keys = {
  * is only true when the game is over). *)
 type st = {
   bgd: sprite;
-  ctx: Dom_html.canvasRenderingContext2D Js.t;
+  ctx: Dom_html.canvasRenderingContext2D;
   vpt: viewport;
   map: float;
   mutable score: int;

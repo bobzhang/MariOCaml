@@ -17,32 +17,32 @@ type sprite_params =
   }
 
 (* Concrete sprite created to visually represent an object *)
-type sprite = 
+type sprite =
   {
     mutable params: sprite_params;
-    context: Dom_html.canvasRenderingContext2D Js.t; 
+    context: Dom_html.canvasRenderingContext2D;
     frame: int ref;
     ticks: int ref;
-    mutable img: Dom_html.imageElement Js.t;
+    mutable img: Dom_html.imageElement;
   }
 
 
 (* Sets up a sprite to create *)
-val setup_sprite : ?loop:bool -> ?bb_off:float*float-> ?bb_sz:float*float 
-        -> string -> int -> int -> xy -> xy 
-                          -> sprite_params 
+val setup_sprite : ?loop:bool -> ?bb_off:float*float-> ?bb_sz:float*float
+        -> string -> int -> int -> xy -> xy
+                          -> sprite_params
 
 (* Creates a sprite given the actor type *)
-val make : Actors.spawn_typ -> Actors.dir_1d 
-   -> Dom_html.canvasRenderingContext2D Js.t
+val make : Actors.spawn_typ -> Actors.dir_1d
+   -> Dom_html.canvasRenderingContext2D
    -> sprite
 
 (* Make a background *)
-val make_bgd : Dom_html.canvasRenderingContext2D Js.t  -> sprite
+val make_bgd : Dom_html.canvasRenderingContext2D  -> sprite
 
 (* Make a particle corresponding to the given type *)
-val make_particle : Actors.part_typ 
-    -> Dom_html.canvasRenderingContext2D Js.t -> sprite
+val make_particle : Actors.part_typ
+    -> Dom_html.canvasRenderingContext2D -> sprite
 
 (* Transform an enemy sprite based on direction *)
 val transform_enemy : Actors.enemy_typ -> sprite -> Actors.dir_1d -> unit

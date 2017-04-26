@@ -17,10 +17,10 @@ type sprite_params =
 type sprite =
   {
     mutable params: sprite_params;
-    context: Dom_html.canvasRenderingContext2D Js.t;
+    context: Dom_html.canvasRenderingContext2D;
     frame: int ref;
     ticks: int ref;
-    mutable img: Dom_html.imageElement Js.t;
+    mutable img: Dom_html.imageElement;
   }
 
 (*setup_sprite is used to initialize a sprite.*)

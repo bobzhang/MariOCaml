@@ -1,5 +1,5 @@
 (* Initiates the main game loop *)
-val update_loop : Dom_html.canvasElement Js.t
+val update_loop : Dom_html.canvasElement
                   -> (Object.collidable * Object.collidable list)
                   -> float*float
                   -> unit
