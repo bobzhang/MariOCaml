@@ -41,3 +41,8 @@ npm run closure:simple
 
 The production build is 7K byte
 
+# Demo
+
+you can play it here
+http://zhanghongbo.me/MariOCaml/
+
