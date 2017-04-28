@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bsb -w",
-    "pack": "webpack --entry ./lib/js/main.js  --output-filename _build/main.d.js -w"
+    "pack": "webpack --entry ./lib/js/main.js  --output-filename _build/main.d.js -w",
+    "rollup" : "rollup -f iife lib/es6_global/main.js > _build/mario.rollup.js",
+    "closure:simple" : "java  -jar node_modules/google-closure-compiler/compiler.jar --compilation_level SIMPLE _build/mario.rollup.js --js_output_file _build/mario.clsoure.simple.js"
   },
   "repository": {
     "type": "git",

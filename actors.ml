@@ -1,6 +1,11 @@
 type dir_1d = | Left | Right
 type dir_2d = | North | South | East | West
 
+let eq_dir_1d x  y =
+  match x with
+  | Left -> y = Left
+  | Right -> y = Right
+             
 type xy = {
   mutable x: float;
   mutable y: float;

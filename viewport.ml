@@ -20,7 +20,7 @@ let make (vx,vy) (mx,my) =
  * centered about the origin point. *) 
 let calc_viewport_point cc vc mc = 
   let vc_half = vc /. 2. in
-  min ( max (cc -. vc_half) 0. ) ( min (mc -. vc) (abs_float(cc -. vc_half)) )
+  Mario_util.min_float ( Mario_util.max_float (cc -. vc_half) 0. ) ( Mario_util.min_float (mc -. vc) (abs_float(cc -. vc_half)) )
 
 (* Returns whether a coordinate pair [pos] is inside the viewport [v] *)
 let in_viewport v pos = 

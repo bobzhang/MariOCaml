@@ -172,7 +172,7 @@ let update_player_keys (player : obj) (controls : controls) : unit =
       player.jumping <- true;
       player.grounded <- false;
       player.vel.y <-
-        max (player.vel.y -.(player_jump +. abs_float player.vel.x *. 0.25))
+        Mario_util.max_float (player.vel.y -.(player_jump +. abs_float player.vel.x *. 0.25))
             player_max_jump
     end
   | CDown ->
@@ -200,10 +200,10 @@ let update_player player keys context =
   let pl_typ = if player.health <= 1 then SmallM else BigM in
   if not prev_jumping && player.jumping
   then Some (pl_typ, (Sprite.make (SPlayer(pl_typ,Jumping)) player.dir context))
-  else if prev_dir<>player.dir || (prev_vx=0. && (abs_float player.vel.x) > 0.)
+  else if not (Actors.eq_dir_1d prev_dir player.dir) || (prev_vx=0. && (abs_float player.vel.x) > 0.)
           && not player.jumping
   then Some (pl_typ, (Sprite.make (SPlayer(pl_typ,Running)) player.dir context))
-  else if prev_dir <> player.dir && player.jumping && prev_jumping
+  else if not (Actors.eq_dir_1d prev_dir  player.dir) && player.jumping && prev_jumping
   then Some (pl_typ, (Sprite.make (SPlayer(pl_typ,Jumping)) player.dir context))
   else if player.vel.y = 0. && player.crouch
   then Some (pl_typ, (Sprite.make (SPlayer(pl_typ,Crouching)) player.dir context))

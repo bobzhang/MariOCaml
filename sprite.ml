@@ -23,11 +23,16 @@ type sprite =
     mutable img: Dom_html.imageElement;
   }
 
+let zero_bbox_size = (0.,0.)
 (*setup_sprite is used to initialize a sprite.*)
 let setup_sprite  ?loop:(loop=true) ?bb_off:(bbox_offset=(0.,0.))
-          ?bb_sz:(bbox_size=(0.,0.))
+          ?bb_sz:(bbox_size=zero_bbox_size)
                  img_src max_frames max_ticks frame_size src_offset =
-  let bbox_size = if bbox_size = (0.,0.) then frame_size else bbox_size in
+  let bbox_size =
+    if Mario_util.eq_checkloc bbox_size zero_bbox_size then frame_size
+    else bbox_size in 
+    (* match bbox_size with (0.,0.) -> frame_size | _ -> bbox_size in  *)
+    (*if bbox_size = (0.,0.) then frame_size else bbox_size in*)
   let img_src = "./sprites/" ^ img_src in
   {
     img_src;

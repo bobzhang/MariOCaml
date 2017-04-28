@@ -1,3 +1,4 @@
+[@@@bs.config{no_export}]
 open Actors
 open Sprite
 open Object
@@ -13,11 +14,12 @@ let level_height = 256.
  *the canvas. Listeners are added. A level is generated and the general
  *update_loop method is called to make the level playable.*)
 let load _ =
-  Random.self_init();
+  (* Random.self_init(); *)
   let canvas_id = "canvas" in
   let canvas = match Dom_html.getElementById Dom_html.document canvas_id with
     | None ->
-      Printf.printf "cant find canvas %s \n" canvas_id;
+    (*Printf.printf "cant find canvas %s \n" canvas_id;*)
+      Js.log {j|can find canvas $canvas_id|j};
       failwith "fail"
     | Some el -> Dom_html.elementToCanvasElement el
   in

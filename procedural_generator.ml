@@ -6,12 +6,13 @@ open Object
 (*Holds obj typ and its coordinates. (int, (x-coord, y-coord))*)
 type obj_coord =  int * (float * float)
 
+
 (*Checks if the given location checkloc is already part of the list of locations
 * in loclist.*)
 let rec mem_loc (checkloc: float * float) (loclist: obj_coord list) : bool =
   match loclist with
   |[] -> false
-  |h::t -> if (checkloc = (snd h)) then true
+  |h::t -> if Mario_util.eq_checkloc checkloc  (snd h) then true
            else mem_loc checkloc t
 
 (*Converts list of locations from blocksize to pixelsize by multiplying (x,y) by
@@ -95,7 +96,8 @@ let rec generate_clouds cbx cby typ num =
 
 (*Generates an obj_coord list (typ, coordinates) of coins to be placed.*)
 let rec generate_coins (block_coord: obj_coord list) : obj_coord list =
-  let place_coin = Random.int 2 in
+  (* let place_coin = Random.int 2 in *)
+  let place_coin = Js.Math.random_int 0 2 in
   match block_coord with
   |[] -> []
   |h::t ->  if(place_coin = 0) then
@@ -117,9 +119,9 @@ let choose_block_pattern (blockw:float) (blockh: float) (cbx:float) (cby:float)
                          (prob:int) : obj_coord list=
   if(cbx > blockw || cby > blockh) then []
   else
-    let block_typ = Random.int 4 in
-    let stair_typ = Random.int 2 in
-    let life_block_chance = Random.int 5 in
+    let block_typ = Js.Math.random_int 0 4 in
+    let stair_typ = Js.Math.random_int 0 2 in
+    let life_block_chance = Js.Math.random_int 0 5 in
     let middle_block = if(life_block_chance = 0) then 3 else stair_typ in
     let obj_coord =
     match prob with
@@ -128,7 +130,7 @@ let choose_block_pattern (blockw:float) (blockh: float) (cbx:float) (cby:float)
           else if (blockw -. cbx > 1.) then [(block_typ,(cbx, cby));
             (block_typ,(cbx +. 1., cby))]
           else [(block_typ,(cbx, cby))]
-    |1 -> let num_clouds = (Random.int 5) + 5 in
+    |1 -> let num_clouds = (Js.Math.random_int 0 5) + 5 in
           if(cby < 5.) then generate_clouds cbx cby 2 num_clouds
           else []
     |2 -> if(blockh-.cby = 1.) then generate_ground_stairs cbx cby stair_typ
@@ -155,7 +157,7 @@ let rec generate_enemies (blockw: float) (blockh: float) (cbx: float)
   else if(mem_loc (cbx, cby) acc || cby = 0.) then
     generate_enemies blockw blockh cbx (cby+.1.) acc
   else
-    let prob = Random.int 30 in
+    let prob = Js.Math.random_int 0 30 in
     let enem_prob = 3 in
       if(prob < enem_prob && (blockh -. 1. = cby)) then
         let enemy = [(prob,(cbx*.16.,cby*.16.))] in
@@ -164,8 +166,8 @@ let rec generate_enemies (blockw: float) (blockh: float) (cbx: float)
 
 (*Generates a list of enemies to be placed upon the block objects.*)
 let rec generate_block_enemies (block_coord: obj_coord list) : obj_coord list =
-  let place_enemy = Random.int 20 in
-  let enemy_typ = Random.int 3 in
+  let place_enemy = Js.Math.random_int 0 20 in
+  let enemy_typ = Js.Math.random_int 0 3 in
   match block_coord with
   |[] -> []
   |h::t ->  if(place_enemy = 0) then
@@ -183,7 +185,7 @@ let rec generate_block_locs (blockw: float) (blockh: float) (cbx: float)
   else if(mem_loc (cbx, cby) acc || cby = 0.) then
     generate_block_locs blockw blockh cbx (cby+.1.) acc
   else
-    let prob = Random.int 100 in
+    let prob = Js.Math.random_int 0 100 in
     let block_prob = 5 in
       if(prob < block_prob) then
         let newacc = choose_block_pattern blockw blockh cbx cby prob in
@@ -207,7 +209,7 @@ let rec generate_ground (blockw:float) (blockh:float) (inc:float)
   if(inc > blockw) then acc
   else
     if(inc > 10.) then
-      let skip = Random.int 10 in
+      let skip = Js.Math.random_int 0 10 in
       let newacc = acc@[(4, (inc*. 16.,blockh *. 16.))] in
       if (skip = 7 && blockw-.inc>32.)
         then generate_ground blockw blockh (inc +. 1.) acc
@@ -290,4 +292,5 @@ let generate (w:float) (h:float)
 
 (*Makes sure level map is uniquely generated at each call.*)
 let init () =
-  Random.self_init();
+  ()
+  (* Random.self_init(); *)

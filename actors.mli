@@ -1,6 +1,6 @@
 type dir_1d = | Left | Right 
 type dir_2d = | North | South | East | West
-
+val eq_dir_1d : dir_1d -> dir_1d -> bool
 (* Generic xy record for easy position access *)
 type xy = {
   mutable x: float;
