@@ -6,9 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bsb -w",
+    "build" : "bsb",
+    "clean" : "bsb -clean-world",
     "pack": "webpack --entry ./lib/js/main.js  --output-filename _build/main.d.js -w",
-    "rollup" : "rollup -f iife lib/es6_global/main.js > _build/mario.rollup.js",
-    "closure:simple" : "java  -jar node_modules/google-closure-compiler/compiler.jar --compilation_level SIMPLE _build/mario.rollup.js --js_output_file _build/mario.clsoure.simple.js"
+    "rollup": "rollup -f iife lib/es6_global/main.js > _build/mario.rollup.js",
+    "closure:simple": "java  -jar node_modules/google-closure-compiler/compiler.jar --compilation_level SIMPLE _build/mario.rollup.js --js_output_file _build/mario.clsoure.simple.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,9 @@
   },
   "homepage": "https://github.com/mahsu/MariOCaml#readme",
   "devDependencies": {
-    "bs-platform": "^1.7.1",
+    "bs-platform": "^1.7.3",
+    "google-closure-compiler": "20170423.0.0",
+    "rollup": "^0.41.6",
     "webpack": "^2.4.1"
   }
 }
