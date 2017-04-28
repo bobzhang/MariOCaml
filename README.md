@@ -31,11 +31,13 @@ npm install -g google-clsoure-compiler
 npm run closure:simple
 ```
 
-Size info
+# Size info
 ```
    7k 04-28 14:27 mario.clsoure.simple.js.gz
 20.3k 04-28 14:27 mario.clsoure.simple.js
   15k 04-28 14:27 mario.rollup.js.gz
-04.1k 04-28 14:27 mario.rollup.js
+104.1k 04-28 14:27 mario.rollup.js
 ```
+
+The production build is 7K byte
 
